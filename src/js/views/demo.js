@@ -5,39 +5,54 @@ import { Context } from "../store/appContext";
 
 import "../../styles/demo.css";
 
+
 export const Demo = () => {
+	
 	const { store, actions } = useContext(Context);
 
 	return (
-		<div className="container">
+		<div className="container" >
+			<center><h2>My Contact List</h2></center>
+
+			<Link to="/formaddcontact">
+				<button className="btn btn-primary my-4">Add New Contact</button>
+			</Link>
+
 			<ul className="list-group">
-				{store.demo.map((item, index) => {
+				{store.contactlist.map((contactlist, index) => {
 					return (
+						<div className="container_list">
 						<li
 							key={index}
-							className="list-group-item d-flex justify-content-between"
-							style={{ background: item.background }}>
-							<Link to={"/single/" + index}>
-								<span>Link to: {item.title}</span>
-							</Link>
-							{// Conditional render example
-							// Check to see if the background is orange, if so, display the message
-							item.background === "orange" ? (
-								<p style={{ color: item.initial }}>
-									Check store/flux.js scroll to the actions to see the code
-								</p>
-							) : null}
-							<button className="btn btn-success" onClick={() => actions.changeColor(index, "orange")}>
-								Change Color
-							</button>
+							className="list-group-item d-flex"
+							>
+							<div>
+								<img src="https://picsum.photos/90" class="img-thumbnail" alt="..."/>
+							</div>
+							<div className = "contact_data">	
+								<h4>{ contactlist.full_name }</h4>
+								<p>{ contactlist.address }</p>
+								<p>{ contactlist.phone }</p>
+								<p>{ contactlist.email }</p>
+							</div>
+							
+							<div className="buttons_position">
+								<Link to={"/formedit/${contactlist.id}"} key={contactlist}>
+								<button type="button" class="btn btn-success mx-3 btn-sm" onClick={()=>actions.editContact(contactlist.id)}>Edit</button>
+								</Link>
+								<button type="button" class="btn btn-danger btn-sm" onClick={()=>actions.deleteContact(contactlist.id)}>Delete</button>
+							</div>
 						</li>
+						</div>
 					);
-				})}
+				})}	
 			</ul>
-			<br />
+			<br/>				
+			
+			<br/>
 			<Link to="/">
 				<button className="btn btn-primary">Back home</button>
 			</Link>
-		</div>
-	);
+		</div>	
+	);	
 };
